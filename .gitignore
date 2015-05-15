@@ -1,0 +1,4 @@
+*.pyc
+cover/
+*.sublime*
+.coverage
