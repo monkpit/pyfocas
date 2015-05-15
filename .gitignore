@@ -2,3 +2,5 @@
 cover/
 *.sublime*
 .coverage
+lib/
+test.sh
