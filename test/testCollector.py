@@ -2,9 +2,9 @@ from __future__ import print_function
 import unittest
 # from nose.tools import raises
 from nose.plugins.attrib import attr
-from Focas.Collector import Collector
-from Focas.Machine import Machine
-from Focas.Driver import ExampleDriver
+from pyfocas.Collector import Collector
+from pyfocas.Machine import Machine
+from pyfocas.Driver import ExampleDriver
 from datetime import datetime
 
 

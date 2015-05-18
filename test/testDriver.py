@@ -2,7 +2,7 @@ from __future__ import print_function
 import unittest
 from nose.tools import raises
 from nose.plugins.attrib import attr
-from Focas.Driver import ExampleDriver, FocasDriverBase
+from pyfocas.Driver import ExampleDriver, FocasDriverBase
 from FanucImplementation.DriverImplementations import Fanuc30iDriver
 import ctypes
 

@@ -1,4 +1,4 @@
-from Focas.Exceptions import FocasConnectionException
+from pyfocas.Exceptions import FocasConnectionException
 import logging
 logging.basicConfig(level=logging.INFO)
 

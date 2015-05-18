@@ -1,7 +1,7 @@
 from __future__ import print_function
 import unittest
 from nose.tools import raises, assert_raises
-from Focas import Exceptions
+from pyfocas import Exceptions
 from itertools import chain
 
 

@@ -1,7 +1,7 @@
 from ctypes import *
 
-from Focas.Driver import FocasDriverBase
-from Focas.Exceptions import FocasExceptionRaiser
+from pyfocas.Driver import FocasDriverBase
+from pyfocas.Exceptions import FocasExceptionRaiser
 from Fwlib32_h import *
 
 AUTO_LABELS = ["MDI", "AUTO", "AUTO", "EDIT", "AUTO", "MANUAL", "MANUAL"]

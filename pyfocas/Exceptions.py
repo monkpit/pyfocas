@@ -1,5 +1,3 @@
-import logging
-
 def FocasExceptionRaiser(value):
     message = None
     if value == -17:

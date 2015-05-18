@@ -3,10 +3,10 @@ import time
 
 import pymongo
 
-from Focas.Collector import Collector
-from Focas.Machine import Machine
+from pyfocas.Collector import Collector
+from pyfocas.Machine import Machine
 from FanucImplementation.DriverImplementations import Fanuc30iDriver
-from Focas import Exceptions
+from pyfocas import Exceptions
 
 THREE_SIXTEEN = "10.108.7.41"
 THREE_TWENTY = "10.108.7.42"

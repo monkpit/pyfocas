@@ -4,8 +4,8 @@ import logging
 from nose.plugins.attrib import attr
 
 from FanucImplementation.DriverImplementations import Fanuc30iDriver
-from Focas.Collector import Collector
-from Focas.Machine import Machine
+from pyfocas.Collector import Collector
+from pyfocas.Machine import Machine
 
 TEST_MACHINE_IP = "10.108.7.41"
 
