@@ -28,6 +28,7 @@ class Fanuc30iDriver(FocasDriverBase):
         self.addPollMethod(self.getControlStatus)
         self.addPollMethod(self.getPMCValues)
         self.addPollMethod(self.getServoAndAxisLoads)
+        self.addPollMethod(self.getAlarmStatus)
 
     def getProgramName(self, handle):
         func = self.dll.cnc_exeprgname
@@ -125,3 +126,32 @@ class Fanuc30iDriver(FocasDriverBase):
         loads.update(axloads)
         data = {'loads': loads}
         return data
+
+    def getAlarmStatus(self, handle):
+        getAlarmStatusFunc = self.dll.cnc_alarm
+        getAlarmStatusFunc.restype = c_short
+        alarm_data = AlarmStatus()
+        result = getAlarmStatusFunc(handle, byref(alarm_data))
+        FocasExceptionRaiser(result)
+        alarm_data = alarm_data.data
+        data = {}
+        data["alarm"] = alarmStringBuilder(alarm_data=alarm_data)
+        return data
+
+
+def alarmStringBuilder(alarm_data):
+    alarms = []
+    if alarm_data & DATAIO_ALARM_MASK:
+        alarms.append("DATAIO")
+    if alarm_data & SERVO_ALARM_MASK:
+        alarms.append("SERVO")
+    if alarm_data & MACRO_ALARM_MASK:
+        alarms.append("MACRO")
+    if alarm_data & OVERHEAT_ALARM_MASK:
+        alarms.append("OVERHEAT")
+    if alarm_data & OVERTRAVEL_ALARM_MASK:
+        alarms.append("OVERTRAVEL")
+    if alarm_data & SPINDLE_ALARM_MASK:
+        alarms.append("SPINDLE")
+
+    return alarms

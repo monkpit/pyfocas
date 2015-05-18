@@ -10,6 +10,7 @@ from Focas import Exceptions
 
 THREE_SIXTEEN = "10.108.7.41"
 THREE_TWENTY = "10.108.7.42"
+JAIME = "10.108.15.52"
 
 collection = None
 

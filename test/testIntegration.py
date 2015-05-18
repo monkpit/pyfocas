@@ -31,6 +31,7 @@ class testMachineConnection(unittest.TestCase):
             data[0]["oNumber"]
             data[0]["loads"]["S"]
             data[0]["loads"]["X"]
+            data[0]["alarm"]
         except KeyError as e:
             self.fail("One or more of the data items were not collected: %s"
                       % e)

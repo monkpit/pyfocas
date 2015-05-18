@@ -13,69 +13,6 @@ ALL_AXES = -1
 # the ctypes module itself and not any of our own code.
 # ############################################################################
 
-
-# bit masks to determine alarm status
-# take an alarm data and AND it with the mask
-# If the result is True the alarm is active
-# If it's False it's cleared
-
-DATAIO_ALARM_MASK = (0x1 << 2) | (0x1 << 7)
-SERVO_ALARM_MASK = 0x1 << 6
-MACRO_ALARM_MASK = 0x1 << 8
-OVERHEAT_ALARM_MASK = 0x1 << 5
-OVERTRAVEL_ALARM_MASK = 0x1 << 4
-SPINDLE_ALARM_MASK = 0x1 << 9
-
-
-class AlarmStatus(ctypes.Structure):
-    """
-    Equivalent of ODBALM
-    """
-    _pack_ = 4
-    _fields_ = [("dummy", ctypes.c_short * 2),
-                ("data", ctypes.c_short), ]
-
-
-ODBALM = AlarmStatus
-
-
-class LoadElement(ctypes.Structure):
-    """
-    Equivalent of LOADELM
-    """
-    _pack_ = 4
-    _fields_ = [("data", ctypes.c_long),
-                ("decimal", ctypes.c_short),
-                ("unit", ctypes.c_short),
-                ("name", ctypes.c_char),
-                ("suffix1", ctypes.c_char),
-                ("suffix2", ctypes.c_char),
-                ("reserve", ctypes.c_char), ]
-
-LOADELM = LoadElement
-
-
-class ServoLoad(ctypes.Structure):
-    """
-    Equivalent of ODBSVLOAD
-    """
-    _pack_ = 4
-    _fields_ = [("load", LoadElement)]
-
-ODBSVLOAD = ServoLoad
-
-
-class SpindleLoad(ctypes.Structure):
-    """
-    Equivalent of ODBSPLOAD
-    """
-    _pack_ = 4
-    _fields_ = [("load", LoadElement),
-                ("speed", LoadElement), ]
-
-ODBSPLOAD = SpindleLoad
-
-
 class StatInfo(ctypes.Structure):
     _pack_ = 4
     _fields_ = [("hdck", ctypes.c_short),
