@@ -7,6 +7,7 @@ from Fwlib32_h import *
 AUTO_LABELS = ["MDI", "AUTO", "AUTO", "EDIT", "AUTO", "MANUAL", "MANUAL"]
 RUN_LABELS = ["STOPPED", "READY (WAITING)", "FEED HOLD", "ACTIVE", "ACTIVE"]
 
+gBlockString = ""
 
 class Fanuc30iDriver(FocasDriverBase):
     def connect(self, ip, port, timeout=10):
@@ -29,6 +30,7 @@ class Fanuc30iDriver(FocasDriverBase):
         self.addPollMethod(self.getPMCValues)
         self.addPollMethod(self.getServoAndAxisLoads)
         self.addPollMethod(self.getAlarmStatus)
+        self.addPollMethod(self.getCurrentBlock)
 
     def getProgramName(self, handle):
         func = self.dll.cnc_exeprgname
@@ -136,6 +138,22 @@ class Fanuc30iDriver(FocasDriverBase):
         alarm_data = alarm_data.data
         data = {}
         data["alarm"] = alarmStringBuilder(alarm_data=alarm_data)
+        return data
+
+    def getCurrentBlock(self, handle):
+        global gBlockString
+        getCurrentBlockFunc = self.dll.cnc_rdexecprog
+        getCurrentBlockFunc.restype = c_short
+        blockstring = (c_char * 255)()
+        blocklength = c_ushort(255)
+        blocknumber = c_short(0)
+        result = getCurrentBlockFunc(handle, byref(blocklength), byref(blocknumber), blockstring)
+        FocasExceptionRaiser(result)
+        data = {}
+        if blockstring.value is not gBlockString:
+            data["currentBlock"] = blockstring.value
+            gBlockString = blockstring.value
+
         return data
 
 
