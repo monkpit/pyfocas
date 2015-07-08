@@ -9,13 +9,21 @@ RUN_LABELS = ["STOPPED", "READY (WAITING)", "FEED HOLD", "ACTIVE", "ACTIVE"]
 
 gBlockString = ""
 
+
 class Fanuc30iDriver(FocasDriverBase):
+    ip = ""
+    port = 0
+    timeout = 0
+
     def connect(self, ip, port, timeout=10):
         func = self.dll.cnc_allclibhndl3
         func.restype = c_short
         handle = c_ushort(0)
         result = func(ip, port, timeout, byref(handle))
-        FocasExceptionRaiser(result)
+        FocasExceptionRaiser(result, context=self)
+        self.ip = ip
+        self.port = port
+        self.timeout = timeout
         return handle
 
     def disconnect(self, handle):
@@ -37,7 +45,7 @@ class Fanuc30iDriver(FocasDriverBase):
         func.restype = c_short
         executingProgram = ExecutingProgram()
         result = func(handle, byref(executingProgram))
-        FocasExceptionRaiser(result)
+        FocasExceptionRaiser(result, context=self)
         data = {}
         data["programName"] = executingProgram.name
         data["oNumber"] = executingProgram.oNumber
@@ -51,7 +59,7 @@ class Fanuc30iDriver(FocasDriverBase):
                       -1,
                       sizeof(DynamicResult),
                       byref(dynamic))
-        FocasExceptionRaiser(result)
+        FocasExceptionRaiser(result, context=self)
         data = {}
         data["blockNumber"] = dynamic.sequenceNumber
         return data
@@ -61,7 +69,7 @@ class Fanuc30iDriver(FocasDriverBase):
         func.restype = c_short
         modalData = ModalData()
         result = func(handle, 108, 1, byref(modalData))
-        FocasExceptionRaiser(result)
+        FocasExceptionRaiser(result, context=self)
         data = {}
         data["activeTool"] = modalData.modal.aux.aux_data
         return data
@@ -71,7 +79,7 @@ class Fanuc30iDriver(FocasDriverBase):
         func.restype = c_short
         statInfo = StatInfo()
         result = func(handle, byref(statInfo))
-        FocasExceptionRaiser(result)
+        FocasExceptionRaiser(result, context=self)
         data = {}
         try:
             data["autoMode"] = AUTO_LABELS[statInfo.auto]
@@ -103,7 +111,7 @@ class Fanuc30iDriver(FocasDriverBase):
                                 pmcAddress,
                                 length,
                                 byref(pmcdata))
-            FocasExceptionRaiser(result)
+            FocasExceptionRaiser(result, context=self)
             data[pmcName] = pmcdata.data.pmcValue
         return data
 
@@ -113,7 +121,7 @@ class Fanuc30iDriver(FocasDriverBase):
         num = c_short(MAX_AXIS)
         loads = (SpindleLoad * MAX_AXIS)()
         result = getServoLoadFunc(handle, 0, byref(num), loads)
-        FocasExceptionRaiser(result)
+        FocasExceptionRaiser(result, context=self)
         # lambda to calculate the actual spindle load value
         spload = lambda s: s.load.data / pow( 10.0, s.load.decimal)
         loads = {s.load.name : spload(s) for s in loads if s.load.name is not "\x00" }
@@ -123,7 +131,7 @@ class Fanuc30iDriver(FocasDriverBase):
         axloads = (ServoLoad * MAX_AXIS)()
         num = c_short(MAX_AXIS)
         result = getAxisLoadFunc(handle, byref(num), axloads)
-        FocasExceptionRaiser(result)
+        FocasExceptionRaiser(result, context=self)
         axloads = {s.load.name : spload(s) for s in axloads if s.load.name is not "\x00"}
         loads.update(axloads)
         data = {'loads': loads}
@@ -134,7 +142,7 @@ class Fanuc30iDriver(FocasDriverBase):
         getAlarmStatusFunc.restype = c_short
         alarm_data = AlarmStatus()
         result = getAlarmStatusFunc(handle, byref(alarm_data))
-        FocasExceptionRaiser(result)
+        FocasExceptionRaiser(result, context=self)
         alarm_data = alarm_data.data
         data = {}
         data["alarm"] = alarmStringBuilder(alarm_data=alarm_data)
@@ -147,8 +155,9 @@ class Fanuc30iDriver(FocasDriverBase):
         blockstring = (c_char * 255)()
         blocklength = c_ushort(255)
         blocknumber = c_short(0)
-        result = getCurrentBlockFunc(handle, byref(blocklength), byref(blocknumber), blockstring)
-        FocasExceptionRaiser(result)
+        result = getCurrentBlockFunc(handle, byref(blocklength),
+                                     byref(blocknumber), blockstring)
+        FocasExceptionRaiser(result, context=self)
         data = {}
         if blockstring.value is not gBlockString:
             data["currentBlock"] = blockstring.value

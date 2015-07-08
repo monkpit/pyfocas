@@ -10,7 +10,12 @@ from pyfocas import Exceptions
 
 THREE_SIXTEEN = "10.108.7.41"
 THREE_TWENTY = "10.108.7.42"
+FOUR_TWENTY_ONE = "10.108.7.39"
 JAIME = "10.108.15.52"
+THREE_EIGHTY_SEVEN = "10.108.7.12"
+THREE_NINETY_SEVEN = "10.108.7.13"
+THREE_NINETY_THREE = "10.108.7.14"
+THREE_NINETY_SIX   = "10.108.7.15"
 
 collection = None
 
@@ -43,10 +48,16 @@ def main():
     collection = db['focas']
 
     reporter = mongo_reporter
-    driver = Fanuc30iDriver("./lib/Fwlib32.dll",
-                            extradlls=["./lib/fwlibe1.dll"])
-    machines = [Machine(driver=driver, ip=THREE_SIXTEEN, name="316"),
-                Machine(driver=driver, ip=THREE_TWENTY, name="320")]
+    driver30i = Fanuc30iDriver("./lib/Fwlib32.dll",
+                               extradlls=["./lib/fwlibe1.dll"])
+
+    machines = [Machine(driver=driver30i, ip=THREE_SIXTEEN, name="316"),
+                Machine(driver=driver30i, ip=THREE_TWENTY, name="320"),
+                Machine(driver=driver30i, ip=FOUR_TWENTY_ONE, name="421"),
+                #Machine(driver=driver30i, ip=THREE_EIGHTY_SEVEN, name="387"),
+                Machine(driver=driver30i, ip=THREE_NINETY_SEVEN, name="397"),
+                Machine(driver=driver30i, ip=THREE_NINETY_SIX, name="396"),
+                Machine(driver=driver30i, ip=THREE_NINETY_THREE, name="393"), ]
     collector = Collector(reporter=reporter, machines=machines)
     while True:
         collector.collect()

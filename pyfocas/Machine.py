@@ -17,11 +17,12 @@ class Machine(object):
         return data
 
     def reconnect(self):
-        try:
-            self.handle = self.driver.reconnect(handle=self.handle,
-                                                ip=self.ip,
-                                                port=self.port)
-        except FocasConnectionException:
-            logging.info("Reconnecting to machine: %s at %s"
-                         % (self.name, self.ip))
-            self.reconnect()
+        while True:
+            try:
+                self.handle = self.driver.reconnect(handle=self.handle,
+                                                    ip=self.ip,
+                                                    port=self.port)
+                break
+            except FocasConnectionException:
+                logging.info("Reconnecting to machine: %s at %s"
+                             % (self.name, self.ip))

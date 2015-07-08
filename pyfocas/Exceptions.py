@@ -1,111 +1,111 @@
-def FocasExceptionRaiser(value):
-    message = None
+def FocasExceptionRaiser(value, context):
+    message = str(context.ip) + ":" + str(context.port) + " - "
     if value == -17:
-        message = "Protocol Error (EW_PROTOCOL)"
+        message += "Protocol Error (EW_PROTOCOL)"
         raise FocasConnectionException(message, value)
     elif value == -16:
-        message = "Socket error (EW_SOCKET)"
+        message += "Socket error (EW_SOCKET)"
         raise FocasConnectionException(message, value)
     elif value == -15:
-        message = "DLL Not Found (EW_NODLL)"
+        message += "DLL Not Found (EW_NODLL)"
         raise FocasOtherException(message, value)
     elif value == -11:
-        message = "Bus error (EW_BUS)"
+        message += "Bus error (EW_BUS)"
         raise FocasOtherException(message, value)
     elif value == -10:
-        message = "System error (EW_SYSTEM2)"
+        message += "System error (EW_SYSTEM2)"
         raise FocasOtherException(message, value)
     elif value == -9:
-        message = "HSSB Serial error (EW_HSSB)"
+        message += "HSSB Serial error (EW_HSSB)"
         raise FocasConnectionException(message, value)
     elif value == -8:
-        message = "Handle error (EW_HANDLE)"
+        message += "Handle error (EW_HANDLE)"
         raise FocasOtherException(message, value)
     elif value == -7:
-        message = "CNC/PMC Version Mismatch (EW_VERSION)"
+        message += "CNC/PMC Version Mismatch (EW_VERSION)"
         raise FocasOtherException(message, value)
     elif value == -6:
-        message = "Abnormal error??? (EW_UNEXP)"
+        message += "Abnormal error??? (EW_UNEXP)"
         raise FocasOtherException(message, value)
     elif value == -5:
-        message = "System error (EW_SYSTEM)"
+        message += "System error (EW_SYSTEM)"
         raise FocasOtherException(message, value)
     elif value == -4:
-        message = "Shared RAM parity error (EW_PARITY)"
+        message += "Shared RAM parity error (EW_PARITY)"
         raise FocasOtherException(message, value)
     elif value == -3:
-        message = "EMM386 or mmcsys install error (EW_MMCSYS)"
+        message += "EMM386 or mmcsys install error (EW_MMCSYS)"
         raise FocasOtherException(message, value)
     elif value == -2:
-        message = "Reset or stop occurred (EW_RESET)"
+        message += "Reset or stop occurred (EW_RESET)"
         raise FocasOtherException(message, value)
     elif value == -1:
-        message = "Busy error (EW_BUSY)"
+        message += "Busy error (EW_BUSY)"
         raise FocasOtherException(message, value)
     elif value == 0:
-        message = "No error (EW_OK)"
+        message += "No error (EW_OK)"
     elif value == 1:
-        message = "'Command prepare error (EW_FUNC)' " + \
-                  "or 'PMC does not exist (EW_NOPMC)'"
+        message += "'Command prepare error (EW_FUNC)' " + \
+                   "or 'PMC does not exist (EW_NOPMC)'"
         raise FocasOtherException(message, value)
     elif value == 2:
-        message = "Data block length error (EW_LENGTH)"
+        message += "Data block length error (EW_LENGTH)"
         raise FocasOtherException(message, value)
     elif value == 3:
-        message = "Data number error (EW_NUMBER)"
+        message += "Data number error (EW_NUMBER)"
         raise FocasOtherException(message, value)
     elif value == 4:
-        message = "'Data attribute error (EW_ATTRIB)' " + \
-                  "or 'Data type error (EW_TYPE)'"
+        message += "'Data attribute error (EW_ATTRIB)' " + \
+                   "or 'Data type error (EW_TYPE)'"
         raise FocasOtherException(message, value)
     elif value == 5:
-        message = "Data error (EW_DATA)"
+        message += "Data error (EW_DATA)"
         raise FocasOtherException(message, value)
     elif value == 6:
-        message = "'No option' error (EW_NOOPT)"
+        message += "'No option' error (EW_NOOPT)"
         raise FocasOtherException(message, value)
     elif value == 7:
-        message = "Write protect error (EW_PROT)"
+        message += "Write protect error (EW_PROT)"
         raise FocasOtherException(message, value)
     elif value == 8:
-        message = "Memory overflow error (EW_OVRFLOW)"
+        message += "Memory overflow error (EW_OVRFLOW)"
         raise FocasOtherException(message, value)
     elif value == 9:
-        message = "CNC Parameter not correct (EW_PARAM)"
+        message += "CNC Parameter not correct (EW_PARAM)"
         raise FocasOtherException(message, value)
     elif value == 10:
-        message = "Buffer error (EW_BUFFER)"
+        message += "Buffer error (EW_BUFFER)"
         raise FocasOtherException(message, value)
     elif value == 11:
-        message = "Path error (EW_PATH)"
+        message += "Path error (EW_PATH)"
         raise FocasOtherException(message, value)
     elif value == 12:
-        message = "CNC Mode error (EW_MODE)"
+        message += "CNC Mode error (EW_MODE)"
         raise FocasOtherException(message, value)
     elif value == 13:
-        message = "Execution rejected (EW_REJECT)"
+        message += "Execution rejected (EW_REJECT)"
         raise FocasOtherException(message, value)
     elif value == 14:
-        message = "Data server error (EW_DTSRVR)"
+        message += "Data server error (EW_DTSRVR)"
         raise FocasOtherException(message, value)
     elif value == 15:
-        message = "Alarm occurred (EW_ALARM)"
+        message += "Alarm occurred (EW_ALARM)"
         raise FocasAlarmException(message, value)
     elif value == 16:
-        message = "CNC is not running (EW_STOP)"
+        message += "CNC is not running (EW_STOP)"
         raise FocasConnectionException(message, value)
     elif value == 17:
-        message = "Protection data error (EW_PASSWD)"
+        message += "Protection data error (EW_PASSWD)"
         raise FocasOtherException(message, value)
     elif value == 18:
-        message = "Error generated by PMC (EW_PMC)"
+        message += "Error generated by PMC (EW_PMC)"
         raise FocasOtherException(message, value)
     elif value == 19:
-        message = "PMC Handle error (EW_PMCHANDLE)"
+        message += "PMC Handle error (EW_PMCHANDLE)"
         raise FocasOtherException(message, value)
     else:
-        message = "An unknown value was provided to FocasException:" + \
-                  " %s" % value
+        message += "An unknown value was provided to FocasException:" + \
+                   " %s" % value
         raise Exception(message, value)
 
 
