@@ -16,16 +16,6 @@ For example, for documentation on "AlarmStatus", look up "ODBALM".
 
 """
 
-__author__ = "Kyle Pittman"
-__copyright__ = "Copyright 2015"
-__credits__ = ["Kyle Pittman"]
-__license__ = "MIT"
-__version__ = "1.0.0"
-__maintainer__ = "Kyle Pittman"
-__email__ = "kyle.pittman@nov.com"
-__status__ = "Production"
-
-
 import ctypes
 
 """Constants"""
