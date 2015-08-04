@@ -1,23 +1,41 @@
+# -*- coding: utf-8 -*-
+""" Fwlib32_h.py
+
+This file contains ctypes structures to match the data structures
+found in the library header Fwlib32.h.
+
+All classes contain `_pack_ = 4`; this comes from Fwlib32.h:
+    #pragma pack(push,4)
+
+Don't unit test these because it would basically be running tests against
+the ctypes module itself and not any of our own code.
+
+Further documentation can be found in the FOCAS documentation.
+Look up the documentation of the Equivalent data type.
+For example, for documentation on "AlarmStatus", look up "ODBALM".
+
+"""
+
+__author__ = "Kyle Pittman"
+__copyright__ = "Copyright 2015"
+__credits__ = ["Kyle Pittman"]
+__license__ = "MIT"
+__version__ = "1.0.0"
+__maintainer__ = "Kyle Pittman"
+__email__ = "kyle.pittman@nov.com"
+__status__ = "Production"
+
+
 import ctypes
 
-# constants
+"""Constants"""
 
 MAX_AXIS = 32
+"""int: The maximum number of axes a control will return"""
+
 ALL_AXES = -1
+"""int: A constant value to request that a function return all axes at once"""
 
-
-# ############################################################################
-# These are all mirroring structures provided from the focas DLL and headers
-# _pack_ = 4 comes from the fwlib32.dll #pragma pack(push,4)
-# Don't unit test these because it would basically be running tests against
-# the ctypes module itself and not any of our own code.
-# ############################################################################
-
-
-# bit masks to determine alarm status
-# take an alarm data and AND it with the mask
-# If the result is True the alarm is active
-# If it's False it's cleared
 
 DATAIO_ALARM_MASK = (0x1 << 2) | (0x1 << 7)
 SERVO_ALARM_MASK = 0x1 << 6
@@ -25,6 +43,13 @@ MACRO_ALARM_MASK = 0x1 << 8
 OVERHEAT_ALARM_MASK = 0x1 << 5
 OVERTRAVEL_ALARM_MASK = 0x1 << 4
 SPINDLE_ALARM_MASK = 0x1 << 9
+"""bit masks to determine alarm status
+take an alarm data and AND it with the mask
+If the result is True the alarm is active
+If it's False it's cleared.
+
+For example, see: DriverImplementations.alarmStringBuilder
+"""
 
 
 class AlarmStatus(ctypes.Structure):
@@ -287,7 +312,7 @@ IODBSGNL = PanelSignals160
 
 class PMCData(ctypes.Structure):
     """
-    Actual PMC values read
+    Actual PMC values that were read
     Used to replace anonymous struct in IODBPMC called "u"
     """
     _pack_ = 1
@@ -383,10 +408,12 @@ class DynamicResult(ctypes.Structure):
         # unreadable
         return dict((f, getattr(self, f)) for f, _ in self._fields_)
 
+ODBDY2 = DynamicResult
+
 
 class IDBPMMGTI(ctypes.Structure):
     """
-    This needs a better name... but what?
+    Equivalent of IDBPMMGTI in FOCAS documentation
     """
     _pack_ = 4
     _fields_ = [("top", ctypes.c_long),
@@ -395,7 +422,7 @@ class IDBPMMGTI(ctypes.Structure):
 
 class ODBPMMGET(ctypes.Structure):
     """
-    This needs a better name... but what?
+    Equivalent of ODBPMMGET in FOCAS documentation
     """
     _pack_ = 4
     _fields_ = [("position", ctypes.c_long),
@@ -411,6 +438,9 @@ class ODBPMMGET(ctypes.Structure):
 
 
 class ProgramData(ctypes.Structure):
+    """
+    Equivalent of ODBPRO
+    """
     _pack_ = 4
     _fields_ = [("dummy", ctypes.c_short * 2),
                 ("program", ctypes.c_long),

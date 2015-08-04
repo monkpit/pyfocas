@@ -10,6 +10,10 @@ from pyfocas import Exceptions
 
 THREE_SIXTEEN = "10.108.7.41"
 THREE_TWENTY = "10.108.7.42"
+THREE_TWENTY_TWO = "10.108.7.44"
+THREE_TWENTY_SIX = "10.108.7.45"
+FOUR_SIXTEEN = "10.108.7.46"
+FOUR_EIGHTEEN = "10.108.7.47"
 FOUR_TWENTY_ONE = "10.108.7.39"
 JAIME = "10.108.15.52"
 THREE_EIGHTY_SEVEN = "10.108.7.12"
@@ -53,6 +57,10 @@ def main():
 
     machines = [Machine(driver=driver30i, ip=THREE_SIXTEEN, name="316"),
                 Machine(driver=driver30i, ip=THREE_TWENTY, name="320"),
+                #Machine(driver=driver30i, ip=THREE_TWENTY_TWO, name="322"),
+                #Machine(driver=driver30i, ip=THREE_TWENTY_SIX, name="326"),
+                #Machine(driver=driver30i, ip=FOUR_SIXTEEN, name="416"),
+                #Machine(driver=driver30i, ip=FOUR_EIGHTEEN, name="418"),
                 Machine(driver=driver30i, ip=FOUR_TWENTY_ONE, name="421"),
                 #Machine(driver=driver30i, ip=THREE_EIGHTY_SEVEN, name="387"),
                 Machine(driver=driver30i, ip=THREE_NINETY_SEVEN, name="397"),
