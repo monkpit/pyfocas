@@ -1,4 +1,3 @@
-from __future__ import print_function
 import unittest
 import logging
 from nose.plugins.attrib import attr
@@ -11,13 +10,16 @@ TEST_MACHINE_IP = "10.108.7.41"
 
 
 @attr("integration")
-class testMachineConnection(unittest.TestCase):
+class test_machine_connection(unittest.TestCase):
     @classmethod
     def setup_class(cls):
         logging.basicConfig(level=logging.INFO)
 
-    def test_Machine_integration(self):
-        # write a description
+    def test_machine_integration(self):
+        """
+        Test that the machine responds to our queries with
+        the appropriate info included in its response.
+        """
         driver = Fanuc30iDriver("./lib/Fwlib32.dll",
                                 extradlls=["./lib/fwlibe1.dll"])
         machineList = [Machine(driver=driver, ip=TEST_MACHINE_IP)]

@@ -25,6 +25,22 @@ collection = None
 
 
 def logging_reporter(machine):
+    """
+    The logging_reporter is a reporter function to be passed
+    into a Collector object.
+    logging_reporter is intended for debugging purposes,
+    all machine datums will be logged to the default logger.
+
+    Parameters: Machine machine
+
+                The reporter expects to be passed a
+                Machine object that it will report on.
+
+    Return value: dict data
+                The reporter will return a dictionary
+                with key:value pairs representing the
+                data handled by the reporter.
+    """
     try:
         data = machine.createDatum()
         logging.info(data)
@@ -34,6 +50,22 @@ def logging_reporter(machine):
 
 
 def mongo_reporter(machine):
+    """
+    The logging_reporter is a reporter function to be passed
+    into a Collector object.
+    logging_reporter is intended for debugging purposes,
+    all machine datums will be logged to the default logger.
+
+    Parameters: Machine machine
+
+                The reporter expects to be passed a
+                Machine object that it will report on.
+
+    Return value: dict data
+                The reporter will return a dictionary
+                with key:value pairs representing the
+                data handled by the reporter.
+    """
     try:
         data = machine.createDatum()
         collection.insert_one(data)

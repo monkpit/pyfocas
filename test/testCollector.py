@@ -8,7 +8,10 @@ from pyfocas.Driver import ExampleDriver
 from datetime import datetime
 
 
-class testCollector(unittest.TestCase):
+class test_Collector(unittest.TestCase):
+    """
+    This class of tests asserts the functionality of the Collector module.
+    """
     @classmethod
     def setup_class(cls):
         driver = ExampleDriver("./lib/Fwlib32.dll",
