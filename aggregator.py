@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import logging
 import time
 
@@ -21,7 +23,6 @@ THREE_NINETY_SEVEN = "10.108.7.13"
 THREE_NINETY_THREE = "10.108.7.14"
 THREE_NINETY_SIX   = "10.108.7.15"
 
-collection = None
 
 
 def logging_reporter(machine):
@@ -49,7 +50,7 @@ def logging_reporter(machine):
         machine.reconnect()
 
 
-def mongo_reporter(machine):
+def mongo_reporter(collection, machine):
     """
     The logging_reporter is a reporter function to be passed
     into a Collector object.
@@ -75,18 +76,27 @@ def mongo_reporter(machine):
 
 
 def main():
+    """
+    The main method of the program. Runs a Collector forever.
+    """
+
+    """ Setup logging """
     logging.basicConfig(level=logging.DEBUG)
     logging.info("Starting Collector")
 
+    """ Setup MongoDB logging client """
     client = pymongo.MongoClient("mongodb://srvhoursapp25.nov.com:27017/")
     db = client['test']
-    global collection
     collection = db['focas']
 
-    reporter = mongo_reporter
+    def reporter(machine):
+        return mongo_reporter(collection, machine)
+
+    """ Instantiate Fanuc30iDriver """
     driver30i = Fanuc30iDriver("./lib/Fwlib32.dll",
                                extradlls=["./lib/fwlibe1.dll"])
 
+    """ List of Machine objects to initialize the Collector with """
     machines = [Machine(driver=driver30i, ip=THREE_SIXTEEN, name="316"),
                 Machine(driver=driver30i, ip=THREE_TWENTY, name="320"),
                 #Machine(driver=driver30i, ip=THREE_TWENTY_TWO, name="322"),
@@ -98,8 +108,11 @@ def main():
                 Machine(driver=driver30i, ip=THREE_NINETY_SEVEN, name="397"),
                 Machine(driver=driver30i, ip=THREE_NINETY_SIX, name="396"),
                 Machine(driver=driver30i, ip=THREE_NINETY_THREE, name="393"), ]
+    """ Create the Collector """
     collector = Collector(reporter=reporter, machines=machines)
+
     while True:
+        """ Run the collector until the process is interrupted """
         collector.collect()
         time.sleep(.5)
 

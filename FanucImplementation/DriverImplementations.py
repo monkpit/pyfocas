@@ -95,8 +95,16 @@ class Fanuc30iDriver(FocasDriverBase):
         return data
 
     def getPMCValues(self, handle):
+        """
+        Checks the PMC addresses and returns
+        their values from the control.
+        """
+        """ getPMCfunc is the ctypes function imported
+            from the dll.                          """
         getPMCfunc = self.dll.pmc_rdpmcrng
         getPMCfunc.restype = c_short
+        """ length = 9 is a hardcoded value from the
+            vendor's documentation.                """
         length = 9
         pmcAddresses = {"Fovr": 12,
                         "Sovr": 30}
